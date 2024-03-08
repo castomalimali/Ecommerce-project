@@ -213,4 +213,4 @@ exports.deleteProduct = async (req, res, next) => {
 //       message: "Server error: Unable to delete product.",
 //     });
 //   }
-// }
+// }  
