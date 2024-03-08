@@ -1,5 +1,7 @@
 //esversion: 6
 const Product = require("../model/product");
+const ErrorHandler = require("../utils/errorHandle");
+const errorHandler = require('../utils/errorHandle');
 
 //creating new product => /api/v1/produxt/new
 exports.newProduct = async (req, res, next) => {
@@ -67,13 +69,15 @@ exports.getProducts = async (req, res, next) => {
 
 exports.getProduct = async (req, res, next) => {
   const product = await Product.findById(req.params.id);
+
+  // if (!product) {
+  //   return next(new ErrorHandler("Product not found", 404));
+  // }
   try {
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
+      return next(new ErrorHandler('Product not found', 404))
     }
+    
     res
       .status(200)
       .json({ success: true, message: "Product found", data: product });
