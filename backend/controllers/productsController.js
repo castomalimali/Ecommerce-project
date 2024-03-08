@@ -153,3 +153,63 @@ exports.updateProduct = async (req, res, next) => {
 //     });
 //   }
 // };
+
+
+//delete product by id
+exports.deleteProduct = async (req, res, next) => {
+  const productId = req.params.id;
+
+  try{
+    const productDelete = await Product.findByIdAndDelete(productId);
+    if(!productDelete){
+      return res.status(404).json({
+        success: false,
+        message: "Product NoT found"
+      });
+      console.log("Product can not be deleted");
+      
+    }
+    res.status(200).json({
+      success: true,
+      message: "Product deleted as successfully",
+      data: productDelete
+    })
+  }
+  catch(error){
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error: Unable to delete product.",
+    });
+  }
+
+}
+
+////////////////////////////////ALTERNATIVE CODE TO DELETE PRODUCTS ///////////////////////////////////
+// exports.deleteProduct = async (req, res, next) =>{
+//   const product = await Product.findById(req.params.id);
+//   try{
+//     if(!product){
+//       return res.status(404).json({
+//         success: false,
+//         message: "Product not found",
+//       });
+//       console.log("Product can not be deleted");
+      
+//     }
+////////////////////////////////THIS CODE REMOVE PRODCUT FROM DB
+    // await product.remove();
+//     res.status(200).json({
+//       success: true,
+//       message: "Product deleted as successfully",
+//       product
+//     })
+//   }
+//   catch(error){ 
+//     console.log(error.message);
+//     res.status(500).json({
+//       success: false,
+//       message: "Server error: Unable to delete product.",
+//     });
+//   }
+// }
