@@ -70,9 +70,9 @@ exports.getProducts = async (req, res, next) => {
 exports.getProduct = async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
-  // if (!product) {
-  //   return next(new ErrorHandler("Product not found", 404));
-  // }
+  if (!product) {
+    return next(new ErrorHandler("Product not found", 404));
+  }
   try {
     if (!product) {
       return next(new ErrorHandler('Product not found', 404))
@@ -166,10 +166,7 @@ exports.deleteProduct = async (req, res, next) => {
   try{
     const productDelete = await Product.findByIdAndDelete(productId);
     if(!productDelete){
-      return res.status(404).json({
-        success: false,
-        message: "Product NoT found"
-      });
+      return next(new ErrorHandler('Product not found', 404))
       console.log("Product can not be deleted");
       
     }
