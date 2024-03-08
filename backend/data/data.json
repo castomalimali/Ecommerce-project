@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Product Name 1",
+    "price": 99.99,
+    "decription": "This is a detailed description of the product.",
+    "rating": 4,
+    "image": [
+      {
+        "public_id": "image_public_id_1",
+        "url": "https://image-url-1.com"
+      },
+      {
+        "public_id": "image_public_id_2",
+        "url": "https://image-url-2.com"
+      }
+    ],
+    "category": "laptop",
+    "seller": "John Doe",
+    "stock": 10,
+    "reviews": [
+      {
+        "name": "Reviewer 1",
+        "rating": 5,
+        "comment": "Great product!",
+        "date": "2024-03-06T15:18:29.000Z"
+      },
+      {
+        "name": "Reviewer 2",
+        "rating": 4,
+        "comment": "Good product, but could be better.",
+        "date": "2024-03-06T15:18:29.000Z"
+      }
+    ]
+  },
+  {
+    "name": "Awesome Smartphone",
+    "price": 499.00,
+    "decription": "The latest and greatest phone on the market!",
+    "rating": 4.5,
+    "image": [
+      {
+        "public_id": "image_public_id_3",
+        "url": "https://image-url-3.com"
+      }
+    ],
+    "category": "mobile",
+    "seller": "Jane Smith",
+    "stock": 5,
+    "reviews": [
+      {
+        "name": "Tech Reviewer",
+        "rating": 5,
+        "comment": "A must-have for any tech enthusiast!",
+        "date": "2024-03-06T15:18:29.000Z"
+      }
+    ]
+  },
+
+  {
+    "name": "Cozy Winter Blanket",
+    "price": 39.99,
+    "decription": "Stay warm and comfortable all winter long.",
+    "rating": 4.8,
+    "image": [
+      {
+        "public_id": "image_public_id_11",
+        "url": "https://image-url-11.com"
+      }
+    ],
+    "category": "home",
+    "seller": "Cozy Home Company",
+    "stock": 20,
+    "reviews": [
+      {
+        "name": "Happy Customer",
+        "rating": 5,
+        "comment": "So soft and warm!",
+        "date": "2024-03-06T15:18:29.000Z"
+      }
+    ]
+  }
+]
