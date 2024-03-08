@@ -86,20 +86,20 @@ exports.getProduct = async (req, res, next) => {
   }
 };
 
-//update product  with its id 
+// update product  with its id 
 exports.updateProduct = async (req, res, next) => {
-  const productId = req.params.id;
-  const product = await Product.findById(productId);
   
-
+  const productId = req.params.id;
+  
   try{
+    const product = await Product.findById(productId);
     if(!product){
       return res.status(404).json({
         success: false,
         message: "Product not found",
       });
 
-      product = await Product.findByIdAndUpdate(productId, req.body,{
+      const product = await Product.findByIdAndUpdate(productId, req.body,{
         new: true,
       })
 
@@ -123,3 +123,33 @@ exports.updateProduct = async (req, res, next) => {
     });
   }
 }
+
+// exports.updateProduct = async (req, res, next) => {
+//   try {
+//     const productId = req.params.id;
+
+//     const product = await Product.findById(productId);
+
+//     if (!product) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Product not found",
+//       });
+//     }
+
+//     // Update product using the found document
+//     const updatedProduct = await product.updateOne(req.body, { new: true });
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Product updated successfully",
+//       data: updatedProduct,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Internal server error",
+//     });
+//   }
+// };
