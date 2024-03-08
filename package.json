@@ -1,7 +1,7 @@
 {
   "name": "ecommerce-project",
   "version": "1.0.0",
-  "description": "This is shop ecommerce project by MALIMLAI",
+  "description": "This is shop ecommerce project by MALIMALI",
   "main": "index.js",
   "scripts": {
     "start": "nodemon  backend/server.js",
