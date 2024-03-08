@@ -66,23 +66,22 @@ exports.getProducts = async (req, res, next) => {
 //Get a single product form db
 
 exports.getProduct = async (req, res, next) => {
-  try{
-    const product = await Product.findById(req.params);
-    if(!product){
+  const product = await Product.findById(req.params.id);
+  try {
+    if (!product) {
       return res.status(404).json({
         success: false,
-        message: "Product not found"
-      });
-      res.status(200).json({success: true,
-        message: "Product found", data: product
+        message: "Product not found",
       });
     }
-  }
-  catch(error){
-    console.log("Fail to fetch product woth error:"+error.message);
+    res
+      .status(200)
+      .json({ success: true, message: "Product found", data: product });
+  } catch (error) {
+    console.log("Fail to fetch product woth error:" + error.message);
     res.status(500).json({
       success: false,
       message: "Server error: Unable to fetch products.",
     });
   }
-}
+};
