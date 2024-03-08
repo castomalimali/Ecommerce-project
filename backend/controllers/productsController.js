@@ -85,3 +85,41 @@ exports.getProduct = async (req, res, next) => {
     });
   }
 };
+
+//update product  with its id 
+exports.updateProduct = async (req, res, next) => {
+  const productId = req.params.id;
+  const product = await Product.findById(productId);
+  
+
+  try{
+    if(!product){
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+
+      product = await Product.findByIdAndUpdate(productId, req.body,{
+        new: true,
+      })
+
+      res.status(200).json(
+        {
+          success: true,
+          message: "Product updated",
+          data: product
+        }
+      )
+
+
+    }
+
+  }
+  catch(error){
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error: Unable to update product.",
+    });
+  }
+}
