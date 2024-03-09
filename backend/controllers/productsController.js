@@ -1,7 +1,7 @@
 //esversion: 6
 const Product = require("../model/product");
 const ErrorHandler = require("../utils/errorHandle");
-const errorHandler = require('../utils/errorHandle');
+const errorHandler = require("../utils/errorHandle");
 
 //creating new product => /api/v1/produxt/new
 exports.newProduct = async (req, res, next) => {
@@ -75,9 +75,9 @@ exports.getProduct = async (req, res, next) => {
   }
   try {
     if (!product) {
-      return next(new ErrorHandler('Product not found', 404))
+      return next(new ErrorHandler("Product not found", 404));
     }
-    
+
     res
       .status(200)
       .json({ success: true, message: "Product found", data: product });
@@ -90,43 +90,33 @@ exports.getProduct = async (req, res, next) => {
   }
 };
 
-// update product  with its id 
+// update product  with its id
 exports.updateProduct = async (req, res, next) => {
-  
   const productId = req.params.id;
-  
-  try{
+
+  try {
     const product = await Product.findById(productId);
-    if(!product){
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
+    if (!product) {
+      return next(new ErrorHandler("Product not found", 404));
+
+      const product = await Product.findByIdAndUpdate(productId, req.body, {
+        new: true,
       });
 
-      const product = await Product.findByIdAndUpdate(productId, req.body,{
-        new: true,
-      })
-
-      res.status(200).json(
-        {
-          success: true,
-          message: "Product updated",
-          data: product
-        }
-      )
-
-
+      res.status(200).json({
+        success: true,
+        message: "Product updated",
+        data: product,
+      });
     }
-
-  }
-  catch(error){
+  } catch (error) {
     console.log(error.message);
     res.status(500).json({
       success: false,
       message: "Server error: Unable to update product.",
     });
   }
-}
+};
 
 // exports.updateProduct = async (req, res, next) => {
 //   try {
@@ -158,33 +148,29 @@ exports.updateProduct = async (req, res, next) => {
 //   }
 // };
 
-
 //delete product by id
 exports.deleteProduct = async (req, res, next) => {
   const productId = req.params.id;
 
-  try{
+  try {
     const productDelete = await Product.findByIdAndDelete(productId);
-    if(!productDelete){
-      return next(new ErrorHandler('Product not found', 404))
+    if (!productDelete) {
+      return next(new ErrorHandler("Product not found", 404));
       console.log("Product can not be deleted");
-      
     }
     res.status(200).json({
       success: true,
       message: "Product deleted as successfully",
-      data: productDelete
-    })
-  }
-  catch(error){
+      data: productDelete,
+    });
+  } catch (error) {
     console.log(error.message);
     res.status(500).json({
       success: false,
       message: "Server error: Unable to delete product.",
     });
   }
-
-}
+};
 
 ////////////////////////////////ALTERNATIVE CODE TO DELETE PRODUCTS ///////////////////////////////////
 // exports.deleteProduct = async (req, res, next) =>{
@@ -196,21 +182,21 @@ exports.deleteProduct = async (req, res, next) => {
 //         message: "Product not found",
 //       });
 //       console.log("Product can not be deleted");
-      
+
 //     }
 ////////////////////////////////THIS CODE REMOVE PRODCUT FROM DB
-    // await product.remove();
+// await product.remove();
 //     res.status(200).json({
 //       success: true,
 //       message: "Product deleted as successfully",
 //       product
 //     })
 //   }
-//   catch(error){ 
+//   catch(error){
 //     console.log(error.message);
 //     res.status(500).json({
 //       success: false,
 //       message: "Server error: Unable to delete product.",
 //     });
 //   }
-// }  
+// }

@@ -1,3 +1,3 @@
+# This will ignore these files on Github
 node_modules/
-
 backend/config/config.env
