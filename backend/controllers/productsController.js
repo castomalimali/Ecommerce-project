@@ -51,9 +51,12 @@ exports.newProduct = async (req, res, next) => {
 
 //create new product => /apu/v1/products?keyword=products
 exports.getProducts = async (req, res, next) => {
+  const resPerPage = 4;
+  const productCount =await Product.countDocuments();
   const apiFeature = new APIFeatures(Product.find(), req.query.keyword)
                      .search()
                      .filter()
+                     .pagination(resPerPage)
   try {
     // const products = await Product.find(); // Use async/await to wait for the database query to complete
     const products = await apiFeature.query;
@@ -61,6 +64,7 @@ exports.getProducts = async (req, res, next) => {
     res.status(200).json({
       success: true,
       count: products.length, // Optionally, include the count of products returned
+      productCount: productCount,
       data: products,
     });
   } catch (error) {
