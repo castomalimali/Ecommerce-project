@@ -53,6 +53,7 @@ exports.newProduct = async (req, res, next) => {
 exports.getProducts = async (req, res, next) => {
   const apiFeature = new APIFeatures(Product.find(), req.query.keyword)
                      .search()
+                     .filter()
   try {
     // const products = await Product.find(); // Use async/await to wait for the database query to complete
     const products = await apiFeature.query;
