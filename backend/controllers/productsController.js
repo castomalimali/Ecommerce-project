@@ -3,8 +3,11 @@ const Product = require("../model/product");
 const ErrorHandler = require("../utils/errorHandle");
 const errorHandler = require("../utils/errorHandle");
 
+const APIFeatures = require('../utils/apiFeatures');
+
 //creating new product => /api/v1/produxt/new
 exports.newProduct = async (req, res, next) => {
+  
   const product = await Product.create(req.body);
 
   res.status(201).json({
@@ -46,10 +49,13 @@ exports.newProduct = async (req, res, next) => {
 //   }
 // }
 
-//create new product
+//create new product => /apu/v1/products?keyword=products
 exports.getProducts = async (req, res, next) => {
+  const apiFeature = new APIFeatures(Product.find(), req.query.keyword)
+                     .search()
   try {
-    const products = await Product.find(); // Use async/await to wait for the database query to complete
+    // const products = await Product.find(); // Use async/await to wait for the database query to complete
+    const products = await apiFeature.query;
 
     res.status(200).json({
       success: true,
