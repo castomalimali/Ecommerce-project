@@ -1,20 +1,19 @@
 //esversion: 6
 const Product = require("../model/product");
 const ErrorHandler = require("../utils/errorHandle");
-const errorHandler = require("../utils/errorHandle");
+const catchAsyncError = require('../middlewares/catchAsyncError');
 
-const APIFeatures = require('../utils/apiFeatures');
+const APIFeatures = require("../utils/apiFeatures");
 
 //creating new product => /api/v1/produxt/new
-exports.newProduct = async (req, res, next) => {
-  
+exports.newProduct = catchAsyncError (async (req, res, next) => {
   const product = await Product.create(req.body);
 
   res.status(201).json({
     success: true,
     product,
   });
-};
+});
 // get all products => /api/v1/produxt/
 // exports.getProducts =  async(req, res, next) => {
 
@@ -50,13 +49,14 @@ exports.newProduct = async (req, res, next) => {
 // }
 
 //create new product => /apu/v1/products?keyword=products
-exports.getProducts = async (req, res, next) => {
+exports.getProducts = catchAsyncError( async (req, res, next) => {
   const resPerPage = 4;
-  const productCount =await Product.countDocuments();
+  const productCount = await Product.countDocuments();
+
   const apiFeature = new APIFeatures(Product.find(), req.query.keyword)
-                     .search()
-                     .filter()
-                     .pagination(resPerPage)
+    .search()
+    .filter()
+    .pagination(resPerPage);
   try {
     // const products = await Product.find(); // Use async/await to wait for the database query to complete
     const products = await apiFeature.query;
@@ -74,21 +74,16 @@ exports.getProducts = async (req, res, next) => {
       message: "Server error: Unable to fetch products.",
     });
   }
-};
+});
 
 //Get a single product form db
 
-exports.getProduct = async (req, res, next) => {
+exports.getProduct = catchAsyncError( async (req, res, next) => {
   const product = await Product.findById(req.params.id);
-
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
   }
   try {
-    if (!product) {
-      return next(new ErrorHandler("Product not found", 404));
-    }
-
     res
       .status(200)
       .json({ success: true, message: "Product found", data: product });
@@ -99,10 +94,10 @@ exports.getProduct = async (req, res, next) => {
       message: "Server error: Unable to fetch products.",
     });
   }
-};
+});
 
 // update product  with its id
-exports.updateProduct = async (req, res, next) => {
+exports.updateProduct = catchAsyncError( async (req, res, next) => {
   const productId = req.params.id;
 
   try {
@@ -127,7 +122,7 @@ exports.updateProduct = async (req, res, next) => {
       message: "Server error: Unable to update product.",
     });
   }
-};
+});
 
 // exports.updateProduct = async (req, res, next) => {
 //   try {
@@ -160,7 +155,7 @@ exports.updateProduct = async (req, res, next) => {
 // };
 
 //delete product by id
-exports.deleteProduct = async (req, res, next) => {
+exports.deleteProduct = catchAsyncError( async (req, res, next) => {
   const productId = req.params.id;
 
   try {
@@ -181,7 +176,7 @@ exports.deleteProduct = async (req, res, next) => {
       message: "Server error: Unable to delete product.",
     });
   }
-};
+});
 
 ////////////////////////////////ALTERNATIVE CODE TO DELETE PRODUCTS ///////////////////////////////////
 // exports.deleteProduct = async (req, res, next) =>{

@@ -3,7 +3,7 @@ const express = require('express');
 
 //error handel import
 const errorMiddleware = require('./middlewares/errors');
-
+// const errorConfig = require('./config/errorConfig');
 const app = express();
 app.use(express.json());
 //imports all routes
