@@ -14,39 +14,6 @@ exports.newProduct = catchAsyncError (async (req, res, next) => {
     product,
   });
 });
-// get all products => /api/v1/produxt/
-// exports.getProducts =  async(req, res, next) => {
-
-//   const Products = await Product.find();
-
-//   res.status(200).json({
-//     success: true,
-//     data: Products
-//   });
-//   res.send(Products)
-// };
-
-//get all products from db
-
-// exports.getProducts = async  (req, res, next) => {
-//   const Products = await Product.find();
-//   try{
-//     res.status(200).json({
-//       success: true,
-//       count: Products.length,
-//       data: Products
-
-//     })
-//   }
-//   catch(error){
-//     console.log("Serve fetch encountered with error ${error} ", error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Server error: Unable to fetch products.",
-//     })
-
-//   }
-// }
 
 //create new product => /apu/v1/products?keyword=products
 exports.getProducts = catchAsyncError( async (req, res, next) => {
@@ -124,6 +91,65 @@ exports.updateProduct = catchAsyncError( async (req, res, next) => {
   }
 });
 
+
+//delete product by id
+exports.deleteProduct = catchAsyncError( async (req, res, next) => {
+  const productId = req.params.id;
+
+  try {
+    const productDelete = await Product.findByIdAndDelete(productId);
+    if (!productDelete) {
+      return next(new ErrorHandler("Product not found", 404));
+      console.log("Product can not be deleted");
+    }
+    res.status(200).json({
+      success: true,
+      message: "Product deleted as successfully",
+      data: productDelete,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error: Unable to delete product.",
+    });
+  }
+});
+
+// get all products => /api/v1/produxt/
+// exports.getProducts =  async(req, res, next) => {
+
+//   const Products = await Product.find();
+
+//   res.status(200).json({
+//     success: true,
+//     data: Products
+//   });
+//   res.send(Products)
+// };
+
+//get all products from db
+
+// exports.getProducts = async  (req, res, next) => {
+//   const Products = await Product.find();
+//   try{
+//     res.status(200).json({
+//       success: true,
+//       count: Products.length,
+//       data: Products
+
+//     })
+//   }
+//   catch(error){
+//     console.log("Serve fetch encountered with error ${error} ", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Server error: Unable to fetch products.",
+//     })
+
+//   }
+// }
+
 // exports.updateProduct = async (req, res, next) => {
 //   try {
 //     const productId = req.params.id;
@@ -154,29 +180,6 @@ exports.updateProduct = catchAsyncError( async (req, res, next) => {
 //   }
 // };
 
-//delete product by id
-exports.deleteProduct = catchAsyncError( async (req, res, next) => {
-  const productId = req.params.id;
-
-  try {
-    const productDelete = await Product.findByIdAndDelete(productId);
-    if (!productDelete) {
-      return next(new ErrorHandler("Product not found", 404));
-      console.log("Product can not be deleted");
-    }
-    res.status(200).json({
-      success: true,
-      message: "Product deleted as successfully",
-      data: productDelete,
-    });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({
-      success: false,
-      message: "Server error: Unable to delete product.",
-    });
-  }
-});
 
 ////////////////////////////////ALTERNATIVE CODE TO DELETE PRODUCTS ///////////////////////////////////
 // exports.deleteProduct = async (req, res, next) =>{
