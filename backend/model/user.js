@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const catchAsyncError = require("../middlewares/catchAsyncError");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -49,6 +51,17 @@ userSchema.pre('save', async function(next){
     next()
   }
   this.password = await bcrypt.hash(this.password, 10)
+})
+
+//Return JWT token
+userSchema.methods.getJwtToken =  function(){
+  return jwt.sign({id: this._id },  process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_TIME}  )
+}
+
+//Login user via /api/v1/login
+
+exports.loginUser = catchAsyncError( async (req, res, next) => {
+
 })
 
 module.exports = mongoose.model("User", userSchema);
