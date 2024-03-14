@@ -38,6 +38,18 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Please enter email and password", 401));
     console.log("User can not be found");
   }
+  //checking password match
+  const isPasswordMatch = await User.comparePassword(password);
 
-  
+  if(!isPasswordMatch) {
+    return next(new ErrorHandler("Please enter correct password", 401));
+  }
+  const token = user.getJwtToken();
+
+  res.status(200).json({
+    success: true,
+    token,
+  })
+
+
 });
