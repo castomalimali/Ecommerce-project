@@ -20,10 +20,11 @@ exports.getProducts = catchAsyncError( async (req, res, next) => {
   const resPerPage = 4;
   const productCount = await Product.countDocuments();
 
-  const apiFeature = new APIFeatures(Product.find(), req.query.keyword)
+  const apiFeature = new APIFeatures(Product.find(), req.query)
     .search()
     .filter()
     .pagination(resPerPage);
+    
   try {
     // const products = await Product.find(); // Use async/await to wait for the database query to complete
     const products = await apiFeature.query;

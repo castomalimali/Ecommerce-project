@@ -1,5 +1,5 @@
 
-
+      ////////////////////////////////ERRORS HANDLING FILE //////////////////////////////////
   const ErrorHandler = require("../utils/errorHandle");
 
 module.exports = (err, req, res, next) => {
@@ -20,15 +20,16 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
 
     error.message = err.message;
+    
 
     //Wrong Mongoose object id
     if(err.name === 'CastError'){
       
- error= new ErrorHandler('Resource can not found. Invalid: '+ err.path, 400)
+      error= new ErrorHandler('Resource can not found. Invalid: '+ err.path, 400)
     }
     //Handling Mongoose Validation Error
     if(err.message === 'ValidationError'){
-      const message = Object.values(err.values).map(value => value.message).join(",");
+      const message = Object.values(err.errors).map(value => value.message).join(", ");
       error = new ErrorHandler(message, 400)
     }
     res.status(error.statusCode).json({

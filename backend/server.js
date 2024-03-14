@@ -1,12 +1,15 @@
 const app = require('./app');
-
-//Hnadle uncaght exception
-process.on('uncaughtException',err=>{
-    console.log('ERROR: '+ err.message);
-    console.log("SHuttong down due to uncaught exception");
-    process.exit(1);
-})
 const dotenv = require("dotenv");
+
+//Handle uncaught exception
+process.on('uncaughtException',err=>{
+    console.log('ERROR: '+ err.stack);
+    console.log('ERROR: '+ err.message);
+    console.log("Shutting down due to uncaught exception");
+    process.exit(1);
+});
+
+
 const connectDatabase = require("./config/database");
 const { connections } = require('mongoose');
 /// configuration of dotenv environment

@@ -8,6 +8,7 @@ const {
   deleteProduct,
 } = require("../controllers/productsController");
 
+
 router.route("/products").get(getProducts);
 
 //get a single product route
