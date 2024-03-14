@@ -5,7 +5,7 @@ const ErrorHandler = require("../utils/errorHandle");
 const catchAsyncError = require("../middlewares/catchAsyncError");
 
 //Registering a user API  => /api/v1/register
-exports.registerUser = catchAsyncError( async (req, res, next) => {
+exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
   const user = await User.create({
     name,
@@ -19,6 +19,25 @@ exports.registerUser = catchAsyncError( async (req, res, next) => {
   const token = user.getJwtToken();
   res.status(201).json({
     success: true,
-    token
+    token,
   });
+});
+
+//Login user via /api/v1/login
+
+exports.loginUser = catchAsyncError(async (req, res, next) => {
+  const { email, password } = req.body;
+  //checks if email and password is entered by user
+  if (!email || !password) {
+    return next(new ErrorHandler("Please enter email and password", 400));
+  }
+  //finding user in database
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) {
+    return next(new ErrorHandler("Please enter email and password", 401));
+    console.log("User can not be found");
+  }
+
+  
 });
